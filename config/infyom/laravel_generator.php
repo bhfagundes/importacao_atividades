@@ -122,7 +122,7 @@ return [
 
     'options' => [
 
-        'softDelete' => true,
+        'softDelete' => false,
 
         'save_schema_file' => true,
 
@@ -185,7 +185,7 @@ return [
 
     'timestamps' => [
 
-        'enabled'       => true,
+        'enabled'       => false,
 
         'created_at'    => 'created_at',
 
