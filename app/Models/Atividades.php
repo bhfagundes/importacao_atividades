@@ -95,10 +95,7 @@ class Atividades extends Model
      * @var array
      */
     public static $rules = [
-        'id_tipo_atividade' => 'required',
-        'id_obrigacao' => 'required',
-        'mandatoria' => 'required',
-        'conclusao_auto' => 'required'
+       
     ];
 
     /**

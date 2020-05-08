@@ -15,11 +15,12 @@
         "guzzlehttp/guzzle": "^6.3",
         "infyomlabs/coreui-templates": "7.0.x-dev",
         "infyomlabs/laravel-generator": "7.0.x-dev",
-         "maatwebsite/excel": "^3.1",
+        "laravel/browser-kit-testing": "^6.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "laravelcollective/html": "^6.1"
+        "laravelcollective/html": "^6.1",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

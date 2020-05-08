@@ -130,13 +130,14 @@ class AtividadesImport implements ToModel, WithHeadingRow
         }
         
         $usuario = Usuarios::where('email',trim($row['responsavel']))->first(['id']);
-  
+        
         if(!$usuario)
         {
             dd($row['responsavel']);
         }
         $arrayCreate['usuario_responsavel']=$usuario->id;
         //$arrayCreate['usuario_responsavel']=55;
+     
         $row['estabelecimento'] = \str_replace('.','',$row['estabelecimento']);
         $row['estabelecimento'] = \str_replace('-','',$row['estabelecimento']);
         $row['estabelecimento'] = \str_replace('/','',$row['estabelecimento']);
@@ -248,17 +249,16 @@ if(!in_array($row['estabelecimento'],$ignorados)){
 
             }
             
-            if($row['evidencias'] != 0 )
-            {
+            
                 DB::connection("platform")
                     ->table("atividade_evidencia")
                     ->insert([
                         "id_atividade"     => $atividade->id,
-                        "id_evidencia"     =>  $row['evidencias'],
+                        "id_evidencia"     =>  $row['evidencias'] + 1,
                         "mandatoria"       =>  $arrayCreate['mandatoria'],
                         "conclusao_auto"   =>$arrayCreate['conclusao_auto'],
                     ]);
-            }     
+                
             
         }
     }

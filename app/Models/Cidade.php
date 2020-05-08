@@ -26,7 +26,8 @@ class Cidade extends Model
 
     public $fillable = [
         'nome',
-        'id_estado'
+        'id_estado',
+        'codigo_ibge'
     ];
 
     /**
@@ -37,7 +38,8 @@ class Cidade extends Model
     protected $casts = [
         'id' => 'integer',
         'nome' => 'string',
-        'id_estado' => 'integer'
+        'id_estado' => 'integer',
+        'codigo_ibge'  =>'integer'
     ];
 
     /**

@@ -9,10 +9,10 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
-use App\Imports\AtividadesImport;
+use App\Imports\CidadesImport;
 use Maatwebsite\Excel\Facades\Excel;
 
-class AtividadesController extends AppBaseController
+class CidadesController extends AppBaseController
 {
     /** @var  AtividadesRepository */
     private $atividadesRepository;
@@ -31,10 +31,9 @@ class AtividadesController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $atividades = $this->atividadesRepository->all();
+        //$atividades = $this->atividadesRepository->all();
 
-        return view('atividades.index')
-            ->with('atividades', $atividades);
+        return view('cidades.index');
     }
 
     /**
@@ -44,7 +43,7 @@ class AtividadesController extends AppBaseController
      */
     public function create()
     {
-        return view('atividades.create');
+        return view('cidades.create');
     }
 
     /**
@@ -58,7 +57,7 @@ class AtividadesController extends AppBaseController
     {
         //$input = $request->all();
         $path = $request->file('excel')->getRealPath();
-        $data=Excel::import(new AtividadesImport, $request->file('excel'));
+        $data=Excel::import(new CidadesImport, $request->file('excel'));
         //$atividades = $this->atividadesRepository->create($input);
 
         Flash::success('Atividades saved successfully.');

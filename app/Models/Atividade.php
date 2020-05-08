@@ -67,6 +67,8 @@ class Atividade extends Model
         'regra_dia_util' => 'integer',
         'usuario_responsavel' => 'integer',
         'id_grupo_atividade' => 'integer',
+        'mandatoria' => 'integer',
+        'conclusao_auto' => 'integer',
         'tipo_dia' => 'integer',
         'quantidade_dias' => 'integer',
         'id_filial' => 'integer',

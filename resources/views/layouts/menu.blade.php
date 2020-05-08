@@ -4,3 +4,10 @@
         <span>Atividades</span>
     </a>
 </li>
+
+<li class="nav-item {{ Request::is('cidades*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('cidades.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Cidades</span>
+    </a>
+</li>
