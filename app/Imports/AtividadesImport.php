@@ -150,10 +150,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
         {
              $row['estabelecimento'] = '02260956000158';
         }
-        if($row['estabelecimento'] == '00864214000106')
-        {
-            $row['estabelecimento'] ='0864214000106';
-        }
+       
         $ignorados =[];
         //este está baixado sempre deverá ficar aqui
         $ignorados[0]='60876075000162';
