@@ -36,7 +36,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
         }
         else
         {
-            $cidade = explode('-',$row['estadomunicipio']);
+            $cidade = explode('-',$row['id_estado']);
             if($cidade[1] == "Sumidouro" || $cidade[1] == "SUMIDOURO")
             {
                 $cidade[0] = 'RJ';
@@ -154,7 +154,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
         $ignorados =[];
         //este está baixado sempre deverá ficar aqui
         $ignorados[0]='60876075000162';
-
+      
         //$ignorados[1]='34025997000130';
         //$ignorados[2]='025086034000171';
         //$ignorados[3]='19440305000142';

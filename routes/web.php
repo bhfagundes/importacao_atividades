@@ -22,3 +22,4 @@ Route::get('/home', 'HomeController@index')->middleware('verified');
 
 Route::resource('atividades', 'AtividadesController');
 Route::resource('cidades', 'CidadesController');
+Route::resource('conteudo', 'ConteudoController');
