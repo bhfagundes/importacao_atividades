@@ -152,9 +152,34 @@ class AtividadesImport implements ToModel, WithHeadingRow
         }
        
         $ignorados =[];
+     
         //este está baixado sempre deverá ficar aqui
         $ignorados[0]='60876075000162';
-      
+        //$ignorados[1]='28201130000101';
+        $ignorados[1]='28382987000175';
+        $ignorados[2]='45892403000120';
+        $ignotados[3] ='04118058000195';
+        $ignorados[4]='28368620000105';
+        $ignorados[5]='04179911000189';
+        $ignorados[6]='2260956000158';
+        $ignorados[7]='04118058000195';
+        $ignorados[8]='04118061000109';
+        $ignorados[9]='04588235000105';
+        $ignorados[10]='04118058000195';
+        $ignorados[11]='04179911000189';
+        $ignorados[12]='04588235000105';
+        $ignorados[13]='26875523000175';
+        $ignorados[14]='28431548000105';
+        $ignorados[15]='28368620000105';
+        $ignorados[16]='26875523000175';
+        $ignorados[17]='34025997000130';
+        $ignorados[18]='45892403000120';
+        $ignorados[19]='08302102000173';
+        $ignorados[20]='04118061000109';
+        $ignorados[21]='28382987000175';
+        $ignorados[22]='19440305000142';
+        //$ignorados[7]='28201130000101';
+        
         //$ignorados[1]='34025997000130';
         //$ignorados[2]='025086034000171';
         //$ignorados[3]='19440305000142';
@@ -178,7 +203,7 @@ $ignorados[15] ='28368620000105';
 $ignorados[16] ='28382987000175';
 $ignorados[17] ='34025997000130';
 $ignorados[18] ='45892403000120';
-$ignorados[19] ='08302102000173';*/
+$ignorados[19] ='08302102000173';
 /*$ignorados[0]='04118058000195';
 $ignorados[1]='04179911000189';
 $ignorados[2]='04588235000105';
