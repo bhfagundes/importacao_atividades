@@ -12,7 +12,7 @@ class Usuarios extends Authenticatable
 {
     use Notifiable;
 
-    protected $connection = "sga";
+   protected $connection = "sga";
     protected $table = "usuarios";
     public $timestamps = false;
     /**

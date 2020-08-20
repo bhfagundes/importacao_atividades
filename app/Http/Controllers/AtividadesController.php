@@ -57,6 +57,7 @@ class AtividadesController extends AppBaseController
     public function store(CreateAtividadesRequest $request)
     {
         //$input = $request->all();
+        
         $path = $request->file('excel')->getRealPath();
         $data=Excel::import(new AtividadesImport, $request->file('excel'));
         //$atividades = $this->atividadesRepository->create($input);

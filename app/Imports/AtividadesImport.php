@@ -29,30 +29,42 @@ class AtividadesImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+     
         if($row['esfera'] == "Federal")
         {
             $cidade = 5565;
-            $estado = 28;
+            $estado = Estado::where('id',28)->first();
         }
         else
         {
-            $cidade = explode('-',$row['id_estado']);
+            /*$cidade = explode('-',$row['id_estado']);
             if($cidade[1] == "Sumidouro" || $cidade[1] == "SUMIDOURO")
             {
                 $cidade[0] = 'RJ';
             }
-       
-            $estado = Estado::where('sigla',trim($cidade[0]))->first();
-      
-            $cid = Cidade::where('id_estado',$estado->id)->where('nome',trim($cidade[1]))->first();
+            */
             
-
-            if(empty($cid))
+            $idEstado = $row['estado'];
+            $estado = Estado::where('nome',$idEstado)->first();
+            
+            if($row['esfera'] == "Municipal")
             {
-                dd($row['estadomunicipio']);
+                $idCidade = $row['municipio'];
+                $cid = Cidade::where('id_estado',$estado->id)->where('nome',$idCidade)->first();
+                if(empty($cid))
+                {
+                    dd($row['municipio']);
+                }
+                $cidade = $cid->id;
             }
-            $cidade = $cid->id;
-            $estado = $estado->id;
+            else
+            {
+                $cidade = 5565;
+            }
+
+
+            
+            //$estado = $estado->id;
         }
         
         $arrayCreate = [];
@@ -69,30 +81,62 @@ class AtividadesImport implements ToModel, WithHeadingRow
             if($row['cod_receita'] == 422)
             {
                 $obrigacoes = Obrigacao::where('id_tipo_obrigacao',trim($idTipo))
-                ->where('id_cod_receita',trim($row['cod_receita']))->where('id_cidade',$cidade)->limit(1)->get();
+                ->where('id_cod_receita',trim($row['cod_receita']))
+                ->where('id_estado', $estado->id)
+                ->where('id_cidade',$cidade);
+                if(trim($idTipo)==8)
+                {
+                 $obrigacoes = $obrigacoes->where('id_ciclo_obrigacao',5);
+               }
+            
+                $obrigacoes = $obrigacoes->get();
    
             }
             else if($row['cod_receita']  == 5301)
             {
                 $obrigacoes = Obrigacao::where('id_tipo_obrigacao',trim($idTipo))
-                ->where('codigo_receita',trim($row['cod_receita']))->where('id_cidade',$cidade)->limit(1)->get();
+                ->where('id_estado', $estado->id)
+                ->where('codigo_receita',trim($row['cod_receita']))->where('id_cidade',$cidade);
+                if(trim($idTipo)==8)
+                {
+                    $obrigacoes = $obrigacoes->where('id_ciclo_obrigacao',5);
+                }
+                
+                $obrigacoes = $obrigacoes->get();
                 $arrayCreate['id_codigo_receita'] = 2048;
             }
             else
             {
+                
                 $obrigacoes = Obrigacao::where('id_tipo_obrigacao',trim($idTipo))
-                ->where('codigo_receita',trim($row['cod_receita']))->where('id_cidade',$cidade)->limit(1)->get();
+                ->where('id_estado', $estado->id)
+                ->where('codigo_receita',trim($row['cod_receita']))->where('id_cidade',$cidade);
+                if(trim($row['cod_receita']) == 310 || $row['cod_receita'] == 350)
+                {
+                    $obrigacoes = $obrigacoes->where('id_periodo_obrigacao',1);
+                }
+                
+                $obrigacoes = $obrigacoes->get();
+                
             }
         }
         else
         {
+           
             $obrigacoes = Obrigacao::where('id_tipo_obrigacao',trim($idTipo))
-            ->where('id_cidade',$cidade)->limit(1)
-                ->get();
+            ->where('id_estado', $estado->id)
+            ->where('id_cidade',$cidade);
+            if(trim($idTipo)==8)
+            {
+                $obrigacoes = $obrigacoes->where('id_ciclo_obrigacao',5);
+            }
+            
+            $obrigacoes = $obrigacoes->get();
         }
 
         if(sizeof($obrigacoes) == 0 || empty($obrigacoes))
         {
+            dd("nao encontrado obrigacao");
             dd($arrayCreate);
         }
       
@@ -116,6 +160,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
         $arrayCreate['quantidade_dias']=$row['data_sem_contagem_de_dias'];
         if(!$tipoAtividade)
         {
+            dd("tipo atividade");
             dd($row['atividade']);
         }
         $arrayCreate['id_tipo_atividade']=$tipoAtividade->id_tipo_atividade;
@@ -131,11 +176,14 @@ class AtividadesImport implements ToModel, WithHeadingRow
         
         $usuario = Usuarios::where('email',trim($row['responsavel']))->first(['id']);
         
-        if(!$usuario)
+        if(!$usuario )
         {
             dd($row['responsavel']);
         }
-        $arrayCreate['usuario_responsavel']=$usuario->id;
+       
+            $arrayCreate['usuario_responsavel']=$usuario->id;
+
+        
         //$arrayCreate['usuario_responsavel']=55;
      
         $row['estabelecimento'] = \str_replace('.','',$row['estabelecimento']);
@@ -154,9 +202,9 @@ class AtividadesImport implements ToModel, WithHeadingRow
         $ignorados =[];
      
         //este está baixado sempre deverá ficar aqui
-        $ignorados[0]='60876075000162';
+       //$ignorados[0]='60876075000162';
         //$ignorados[1]='28201130000101';
-        $ignorados[1]='28382987000175';
+        /*$ignorados[1]='28382987000175';
         $ignorados[2]='45892403000120';
         $ignotados[3] ='04118058000195';
         $ignorados[4]='28368620000105';
@@ -220,7 +268,9 @@ if(!in_array($row['estabelecimento'],$ignorados)){
         $filial = Filial::where('cnpj',trim($row['estabelecimento']))->first(['id']); 
         if(!$filial)
         {
+            dd("eror filial");
             dd($row['estabelecimento']);
+            
         }       
         if($arrayCreate['mandatoria'] ==2)
         {
@@ -232,64 +282,75 @@ if(!in_array($row['estabelecimento'],$ignorados)){
         }
         $arrayCreate['id_filial'] =  $filial->id ;
         $arrayCreate['data_com_contagem'] = $row['data_com_contagem_de_dias'];
-        for($i =0 ; $i<sizeof($obrigacoes);$i++)
-        {   $arrayCreate['id_obrigacao'] = $obrigacoes[$i]->id_obrigacao;
-            if(!is_null($row['data_com_contagem_de_dias']))
-            {
-                $qtd = explode('-',$row['data_com_contagem_de_dias']);
-                $arrayCreate['contagem_dia']=1;
-                $arrayCreate['quantidade_dias']=$qtd[1];
-                $atividade = Atividade::create($arrayCreate);
-                $datas = DataObrigacao::where('id_obrigacao',$arrayCreate['id_obrigacao'])->get();
-                for($j=0; $j<sizeof($datas);$j++)
-                {
-                    $result = DB::connection("platform")
-                                ->select('call insert_data_atividade_carga(?, ?,?,?,?,?,?,?)',
-                                    [$atividade->id,
-                                    Carbon::parse($datas[$j]->data_vencimento)
-                                    ->format('Y-m-d'),
-                                    $arrayCreate['tipo_dia'],
-                                    $arrayCreate['regra_dia_util'] ,
-                                    $arrayCreate['quantidade_dias'],
-                                    $datas[$j]->id_data_obrigacao,
-                                    $obrigacoes[$i]->id_ciclo_obrigacao,
-                                    $arrayCreate['usuario_responsavel']]);
+      
+        /*$at = Atividade::where('id_obrigacao',$obrigacoes[0]->id_obrigacao)
+            ->where('id_filial',$arrayCreate['id_filial'])
+            ->where('id_tipo_atividade',$arrayCreate['id_tipo_atividade'])
+            ->get();
+            dd($at);*/    
+        if(1 == 1)
+        {
 
+        
+            for($i =0 ; $i<sizeof($obrigacoes);$i++)
+            {   $arrayCreate['id_obrigacao'] = $obrigacoes[$i]->id_obrigacao;
+                if(!is_null($row['data_com_contagem_de_dias']))
+                {
+                    $qtd = explode('-',$row['data_com_contagem_de_dias']);
+                    $arrayCreate['contagem_dia']=1;
+                    $arrayCreate['quantidade_dias']=$qtd[1];
+                    $atividade = Atividade::create($arrayCreate);
+                   /* $datas = DataObrigacao::where('id_obrigacao',$arrayCreate['id_obrigacao'])->get();
+                    for($j=0; $j<sizeof($datas);$j++)
+                    {
+                        $result = DB::connection("platform")
+                                    ->select('call insert_data_atividade_carga(?, ?,?,?,?,?,?,?)',
+                                        [$atividade->id,
+                                        Carbon::parse($datas[$j]->data_vencimento)
+                                        ->format('Y-m-d'),
+                                        $arrayCreate['tipo_dia'],
+                                        $arrayCreate['regra_dia_util'] ,
+                                        $arrayCreate['quantidade_dias'],
+                                        $datas[$j]->id_data_obrigacao,
+                                        $obrigacoes[$i]->id_ciclo_obrigacao,
+                                        $arrayCreate['usuario_responsavel']]);
+
+                    }
+                    */
+                    // aquwi gera
+                }
+                else
+                {
+                    $arrayCreate['data_com_contagem'] = $row['data_sem_contagem_de_dias'];
+                    $arrayCreate['quantidade_dias']=$arrayCreate['data_com_contagem'];
+                    $arrayCreate['contagem_dia']=null;
+                    $atividade = Atividade::create($arrayCreate);
+                    $arrayCreate['data_com_contagem'] = $row['data_sem_contagem_de_dias'];
+                    $i = sizeof($obrigacoes);
+                    /*$result = DB::connection("platform")
+                                    ->select('call gerarDataFixa(?, ?,?,?,?)',
+                                        [$arrayCreate['data_com_contagem'],
+                                        $arrayCreate['regra_dia_util'],
+                                        $arrayCreate['usuario_responsavel'],
+                                        $atividade->id,
+                                        $arrayCreate['tipo_dia']
+                                        ]);
+                    */
                 }
                 
-                // aquwi gera
-            }
-            else
-            {
-                $arrayCreate['data_com_contagem'] = $row['data_sem_contagem_de_dias'];
-                $arrayCreate['quantidade_dias']=$arrayCreate['data_com_contagem'];
-                $arrayCreate['contagem_dia']=null;
-                $atividade = Atividade::create($arrayCreate);
-                $arrayCreate['data_com_contagem'] = $row['data_sem_contagem_de_dias'];
                 
-                $result = DB::connection("platform")
-                                ->select('call gerarDataFixa(?, ?,?,?,?)',
-                                    [$arrayCreate['data_com_contagem'],
-                                    $arrayCreate['regra_dia_util'],
-                                    $arrayCreate['usuario_responsavel'],
-                                    $atividade->id,
-                                    $arrayCreate['tipo_dia']
-                                    ]);
-
-            }
-            
-            
-                DB::connection("platform")
-                    ->table("atividade_evidencia")
-                    ->insert([
-                        "id_atividade"     => $atividade->id,
-                        "id_evidencia"     =>  $row['evidencias'] + 1,
-                        "mandatoria"       =>  $arrayCreate['mandatoria'],
-                        "conclusao_auto"   =>$arrayCreate['conclusao_auto'],
-                    ]);
+                    DB::connection("platform")
+                        ->table("atividade_evidencia")
+                        ->insert([
+                            "id_atividade"     => $atividade->id,
+                            "id_evidencia"     =>  $row['evidencias'] + 1,
+                            "mandatoria"       =>  $arrayCreate['mandatoria'],
+                            "conclusao_auto"   =>$arrayCreate['conclusao_auto'],
+                        ]);
+                    
                 
-            
-        }
+            }
+        }    
     }
         
         

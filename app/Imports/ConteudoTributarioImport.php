@@ -66,10 +66,10 @@ class ConteudoTributarioImport implements ToModel, WithHeadingRow
         {
             $row['data_vencimento'] =Carbon::parse(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(str_replace("'   ",'',$row['data_vencimento'])))->format('d/m/Y');
         }
-        if($row['data_publicacao_obg'] != '' && !empty($row['data_publicacao_obg']))
+        /*if($row['data_publicacao_obg'] != '' && !empty($row['data_publicacao_obg']))
         {
             $row['data_publicacao_obg'] =Carbon::parse(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(str_replace("'   ",'',$row['data_publicacao_obg'])))->format('d/m/Y');
-        }
+        }*/
        // $row['data_vigencia_inicio_obg'] =\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['data_vigencia_inicio_obg']);
         //$row['data_vigencia_fim_obg'] =\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['data_vigencia_fim_obg']);
         //$row['data_busca_obg'] =\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['data_busca_obg']);

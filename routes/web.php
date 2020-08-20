@@ -23,3 +23,11 @@ Route::get('/home', 'HomeController@index')->middleware('verified');
 Route::resource('atividades', 'AtividadesController');
 Route::resource('cidades', 'CidadesController');
 Route::resource('conteudo', 'ConteudoController');
+
+Route::resource('atividadeEvidencias', 'AtividadeEvidenciaController');
+
+Route::resource('evidencias', 'EvidenciaController');
+
+Route::resource('dataAtividadeEvidencias', 'DataAtividadeEvidenciaController');
+
+Route::resource('cruzamentos', 'CruzamentosController');

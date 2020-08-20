@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70c897d7f6d258018f1ecb1ce0bbe798",
-    "content-hash": "a73b50f2e22020c0429eb4e220ed7c2e",
+    "hash": "d741f8c1c399209f157f14980e84465d",
+    "content-hash": "364db95d6b1829952bd28a8cf33d360f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1108,7 +1108,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/InfyOmLabs/laravel-generator/zipball/e70fa0eea58aa56d0375d973e09ee9a05078e12f",
+                "url": "https://api.github.com/repos/InfyOmLabs/laravel-generator/zipball/d6fb538d4c1434287dcb4d79066f4c7331fe52e2",
                 "reference": "e70fa0eea58aa56d0375d973e09ee9a05078e12f",
                 "shasum": ""
             },
@@ -6262,6 +6262,68 @@
                 "fixtures"
             ],
             "time": "2019-12-12 13:22:17"
+        },
+        {
+            "name": "jkocik/laravel-profiler",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jkocik/laravel-profiler.git",
+                "reference": "89347e640895fdac7c27e0921b2002305f6e1abc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jkocik/laravel-profiler/zipball/89347e640895fdac7c27e0921b2002305f6e1abc",
+                "reference": "89347e640895fdac7c27e0921b2002305f6e1abc",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^5.0 || ^6.0",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.8",
+                "laravel/homestead": "^7.3",
+                "mockery/mockery": "^1.0",
+                "php-coveralls/php-coveralls": "^2.1",
+                "php-mock/php-mock": "^2.0",
+                "phpunit/phpunit": "^6.5",
+                "predis/predis": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JKocik\\Laravel\\Profiler\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JKocik\\Laravel\\Profiler\\": "src/"
+                },
+                "files": [
+                    "src/Services/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Janusz Kocik",
+                    "email": "janusz.kocik@gmail.com"
+                }
+            ],
+            "description": "Profiler for Laravel framework 5.2+",
+            "homepage": "https://github.com/jkocik/laravel-profiler",
+            "keywords": [
+                "debugbar",
+                "laravel",
+                "profiler"
+            ],
+            "time": "2020-06-05 02:17:39"
         },
         {
             "name": "nunomaduro/collision",

@@ -103,7 +103,7 @@ class conteudotributarioplan extends model
 {
 
     public $table = 'conteudo_tributario_plan';
-    
+    //public $table = 'conteudo_tributario_plan';
     public $timestamps = false;
 
     protected $connection = 'platform';
