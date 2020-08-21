@@ -12,6 +12,13 @@
     </a>
 </li>
 
+<li class="nav-item {{ Request::is('obrigacao*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('obrigacao.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Obrigacao</span>
+    </a>
+</li>
+
 
 <li class="nav-item {{ Request::is('conteudo*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('conteudo.index') }}">

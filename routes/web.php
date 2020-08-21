@@ -28,6 +28,8 @@ Route::resource('atividadeEvidencias', 'AtividadeEvidenciaController');
 
 Route::resource('evidencias', 'EvidenciaController');
 
+Route::resource('obrigacao', 'ObrigacaoController');
+
 Route::resource('dataAtividadeEvidencias', 'DataAtividadeEvidenciaController');
 
 Route::resource('cruzamentos', 'CruzamentosController');
