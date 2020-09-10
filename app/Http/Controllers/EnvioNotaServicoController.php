@@ -150,6 +150,7 @@ class EnvioNotaServicoController extends AppBaseController
 
         Flash::success('Envio Nota Servico saved successfully.');
 
+
         return redirect(route('envioNotaServicos.index'));
     }
 
