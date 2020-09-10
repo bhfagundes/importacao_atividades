@@ -1,4 +1,4 @@
-<li class="nav-item {{ Request::is('atividades*') ? 'active' : '' }}">
+<!--<li class="nav-item {{ Request::is('atividades*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('atividades.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Atividades</span>
@@ -96,5 +96,11 @@
     <a class="nav-link" href="{{ route('perfilContratacaos.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Perfil Contratacaos</span>
+    </a>
+</li>!-->
+<li class="nav-item {{ Request::is('envioNotaServicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('envioNotaServicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Envio Nota Servicos</span>
     </a>
 </li>
