@@ -38,7 +38,7 @@ class Obrigacao extends Model
 {
 
     public $table = 'obrigacao';
-    
+
     public $timestamps = false;
     protected $connection = 'platform';
 
@@ -61,7 +61,8 @@ class Obrigacao extends Model
         'cod_aux_ato',
         'id_cod_receita',
         'idx_ordem',
-        'codigo_receita'
+        'codigo_receita',
+        'id_tabela'
     ];
 
     /**
@@ -87,7 +88,8 @@ class Obrigacao extends Model
         'cod_aux_ato' => 'integer',
         'id_cod_receita' => 'integer',
         'idx_ordem' => 'integer',
-        'codigo_receita' => 'integer'
+        'codigo_receita' => 'integer',
+        'id_tabela'=>'integer'
     ];
 
     /**
@@ -96,7 +98,7 @@ class Obrigacao extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
 
     /**

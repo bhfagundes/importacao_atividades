@@ -29,7 +29,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-     
+
         if($row['esfera'] == "Federal")
         {
             $cidade = 5565;
@@ -43,10 +43,10 @@ class AtividadesImport implements ToModel, WithHeadingRow
                 $cidade[0] = 'RJ';
             }
             */
-            
+
             $idEstado = $row['estado'];
             $estado = Estado::where('nome',$idEstado)->first();
-            
+
             if($row['esfera'] == "Municipal")
             {
                 $idCidade = $row['municipio'];
@@ -63,17 +63,17 @@ class AtividadesImport implements ToModel, WithHeadingRow
             }
 
 
-            
+
             //$estado = $estado->id;
         }
-        
+
         $arrayCreate = [];
         $idTipo = $row['id_obrigacao'];
         if($idTipo ==7)
         {
             $idTipo = 31;
         }
-       
+
         if(!is_null($row['cod_receita']))
         {
             $codReceita = CodigoReceita::where('codigo_receita',trim($row['cod_receita']))->first(['id_codigo_receita']);
@@ -88,9 +88,9 @@ class AtividadesImport implements ToModel, WithHeadingRow
                 {
                  $obrigacoes = $obrigacoes->where('id_ciclo_obrigacao',5);
                }
-            
+
                 $obrigacoes = $obrigacoes->get();
-   
+
             }
             else if($row['cod_receita']  == 5301)
             {
@@ -101,13 +101,13 @@ class AtividadesImport implements ToModel, WithHeadingRow
                 {
                     $obrigacoes = $obrigacoes->where('id_ciclo_obrigacao',5);
                 }
-                
+
                 $obrigacoes = $obrigacoes->get();
                 $arrayCreate['id_codigo_receita'] = 2048;
             }
             else
             {
-                
+
                 $obrigacoes = Obrigacao::where('id_tipo_obrigacao',trim($idTipo))
                 ->where('id_estado', $estado->id)
                 ->where('codigo_receita',trim($row['cod_receita']))->where('id_cidade',$cidade);
@@ -115,14 +115,14 @@ class AtividadesImport implements ToModel, WithHeadingRow
                 {
                     $obrigacoes = $obrigacoes->where('id_periodo_obrigacao',1);
                 }
-                
+
                 $obrigacoes = $obrigacoes->get();
-                
+
             }
         }
         else
         {
-           
+
             $obrigacoes = Obrigacao::where('id_tipo_obrigacao',trim($idTipo))
             ->where('id_estado', $estado->id)
             ->where('id_cidade',$cidade);
@@ -130,7 +130,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
             {
                 $obrigacoes = $obrigacoes->where('id_ciclo_obrigacao',5);
             }
-            
+
             $obrigacoes = $obrigacoes->get();
         }
 
@@ -139,7 +139,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
             dd("nao encontrado obrigacao");
             dd($arrayCreate);
         }
-      
+
 
         if($row['atividade']=='Cruzamento')
         {
@@ -151,8 +151,8 @@ class AtividadesImport implements ToModel, WithHeadingRow
             $row['atividade']="Auditoria/Conciliação";
             $tipoAtividade = TipoAtividade::where('descricao',trim($row['atividade']))->first(['id_tipo_atividade']);
 
-        } 
-       
+        }
+
         $arrayCreate['tipo_dia']=$row['tipo_de_dia'];
         $arrayCreate['regra_dia_util']=$row['regra_do_dia_util'];
         $arrayCreate['mandatoria'] = $row['mandatoria'];
@@ -164,7 +164,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
             dd($row['atividade']);
         }
         $arrayCreate['id_tipo_atividade']=$tipoAtividade->id_tipo_atividade;
-        
+
         if($row['responsavel'] == 'duilio.oliveira@energisa.om.br')
         {
             $row['responsavel']='duilio.oliveira@energisa.com.br';
@@ -173,19 +173,19 @@ class AtividadesImport implements ToModel, WithHeadingRow
         {
             $row['responsavel']='micheli.bernardes@energisa.com';
         }
-        
+
         $usuario = Usuarios::where('email',trim($row['responsavel']))->first(['id']);
-        
+
         if(!$usuario )
         {
             dd($row['responsavel']);
         }
-       
+
             $arrayCreate['usuario_responsavel']=$usuario->id;
 
-        
+
         //$arrayCreate['usuario_responsavel']=55;
-     
+
         $row['estabelecimento'] = \str_replace('.','',$row['estabelecimento']);
         $row['estabelecimento'] = \str_replace('-','',$row['estabelecimento']);
         $row['estabelecimento'] = \str_replace('/','',$row['estabelecimento']);
@@ -198,9 +198,9 @@ class AtividadesImport implements ToModel, WithHeadingRow
         {
              $row['estabelecimento'] = '02260956000158';
         }
-       
+
         $ignorados =[];
-     
+
         //este está baixado sempre deverá ficar aqui
        //$ignorados[0]='60876075000162';
         //$ignorados[1]='28201130000101';
@@ -227,7 +227,7 @@ class AtividadesImport implements ToModel, WithHeadingRow
         $ignorados[21]='28382987000175';
         $ignorados[22]='19440305000142';
         //$ignorados[7]='28201130000101';
-        
+
         //$ignorados[1]='34025997000130';
         //$ignorados[2]='025086034000171';
         //$ignorados[3]='19440305000142';
@@ -263,15 +263,15 @@ $ignorados[7]='34025997000130';
 $ignorados[8]='45892403000120';
 $ignorados[9]='08302102000173';
 $ignorados[10] = '04118061000109';
-$ignorados[11]='28382987000175';*/        
+$ignorados[11]='28382987000175';*/
 if(!in_array($row['estabelecimento'],$ignorados)){
-        $filial = Filial::where('cnpj',trim($row['estabelecimento']))->first(['id']); 
+        $filial = Filial::where('cnpj',trim($row['estabelecimento']))->first(['id']);
         if(!$filial)
         {
             dd("eror filial");
             dd($row['estabelecimento']);
-            
-        }       
+
+        }
         if($arrayCreate['mandatoria'] ==2)
         {
             $arrayCreate['mandatoria']=0;
@@ -282,16 +282,16 @@ if(!in_array($row['estabelecimento'],$ignorados)){
         }
         $arrayCreate['id_filial'] =  $filial->id ;
         $arrayCreate['data_com_contagem'] = $row['data_com_contagem_de_dias'];
-      
+
         /*$at = Atividade::where('id_obrigacao',$obrigacoes[0]->id_obrigacao)
             ->where('id_filial',$arrayCreate['id_filial'])
             ->where('id_tipo_atividade',$arrayCreate['id_tipo_atividade'])
             ->get();
-            dd($at);*/    
+            dd($at);*/
         if(1 == 1)
         {
 
-        
+
             for($i =0 ; $i<sizeof($obrigacoes);$i++)
             {   $arrayCreate['id_obrigacao'] = $obrigacoes[$i]->id_obrigacao;
                 if(!is_null($row['data_com_contagem_de_dias']))
@@ -337,8 +337,8 @@ if(!in_array($row['estabelecimento'],$ignorados)){
                                         ]);
                     */
                 }
-                
-                
+
+
                     DB::connection("platform")
                         ->table("atividade_evidencia")
                         ->insert([
@@ -347,13 +347,13 @@ if(!in_array($row['estabelecimento'],$ignorados)){
                             "mandatoria"       =>  $arrayCreate['mandatoria'],
                             "conclusao_auto"   =>$arrayCreate['conclusao_auto'],
                         ]);
-                    
-                
+
+
             }
-        }    
+        }
     }
-        
-        
+
+
     }
     public function headingRow(): int
     {

@@ -50,3 +50,51 @@
         <span>Cruzamentos</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('maoObraServicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('maoObraServicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Mao Obra Servicos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('lc116s*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('lc116s.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Lc116S</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('statusServicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('statusServicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Status Servicos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('classeServicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('classeServicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Classe Servicos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('sublasseServicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('sublasseServicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Sublasse Servicos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('servicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('servicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Servicos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('contratacaoServicos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('contratacaoServicos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Contratacao Servicos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('perfilContratacaos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('perfilContratacaos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Perfil Contratacaos</span>
+    </a>
+</li>
