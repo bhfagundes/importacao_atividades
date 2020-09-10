@@ -145,7 +145,7 @@ class EnvioNotaServicoController extends AppBaseController
         \Storage::disk('local')->put($destinationPath,file_get_contents($file->getRealPath()));
         // fim do salvamento no storage
 
-        $input['path']=$destinationPath;
+        $input['path_arquivo']=$destinationPath;
         $envioNotaServico = $this->envioNotaServicoRepository->create($input);
 
         Flash::success('Envio Nota Servico saved successfully.');
