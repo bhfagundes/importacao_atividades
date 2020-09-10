@@ -7,7 +7,7 @@
 
     <div class="form-group col-sm-6">
         {!! Form::label('id_tipo_atividade', 'Identificador da Nota:') !!}
-        {!! Form::text('identifiacador_nota', null, ['class' => 'form-control']) !!}
+        {!! Form::text('identificador_nota', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 <div class="form-group col-sm-6">

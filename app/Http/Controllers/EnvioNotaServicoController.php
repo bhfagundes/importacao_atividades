@@ -140,11 +140,11 @@ class EnvioNotaServicoController extends AppBaseController
         // salvando no storage
         $file = $input['arquivo'];
         $fileExtension = $file->getClientOriginalExtension();
-        $fileName = $input['identifiacador_nota']. ".".$fileExtension;
+        $fileName = $input['identificador_nota']. ".".$fileExtension;
         $destinationPath = $input['estabelecimento'] . "/". $fileName;
         \Storage::disk('local')->put($destinationPath,file_get_contents($file->getRealPath()));
         // fim do salvamento no storage
-
+        $input['identificador_nota']= $input['identificador_nota'];
         $input['path_arquivo']=$destinationPath;
         $envioNotaServico = $this->envioNotaServicoRepository->create($input);
 
