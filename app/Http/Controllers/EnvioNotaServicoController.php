@@ -8,7 +8,7 @@ use App\Repositories\EnvioNotaServicoRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
-use App\Util\RestClient;
+use GuzzleHttp\Client;
 use Response;
 
 class EnvioNotaServicoController extends AppBaseController
@@ -132,10 +132,38 @@ class EnvioNotaServicoController extends AppBaseController
      *
      * @return Response
      */
+    public function authEnergisa()
+    {
+        $curl = curl_init();
 
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "api-energisa.sensedia.com/oauth/grant-code",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS =>"{\r\n \"redirect_uri\" : \"http://localhost:8000/\",\r\n \"client_id\" : \"7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4\"\r\n}",
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $tokenAux = explode("http://localhost:8000/?code=", $response);
+        if($tokenAux == 0)
+        {
+            return "error authentication";
+        }
+        $tokenF=explode('"}',$tokenAux[1]);
+        $token = $tokenF[0];
+        return $token;
+    }
     public function store(CreateEnvioNotaServicoRequest $request)
     {
-
         $input = $request->all();
         // salvando no storage
         $file = $input['arquivo'];
@@ -147,8 +175,51 @@ class EnvioNotaServicoController extends AppBaseController
         $input['identificador_nota']= $input['identificador_nota'];
         $input['path_arquivo']=$destinationPath;
         $envioNotaServico = $this->envioNotaServicoRepository->create($input);
+        $token = $this->authEnergisa();
+        if($token == "error authentication")
+        {
+            Flash::error('Erro ao enviar o XML');
+            return redirect(route('envioNotaServicos.index'));
+        }
+        $curl = curl_init();
 
-        Flash::success('Envio Nota Servico saved successfully.');
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_HTTPHEADER => array(
+    "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
+    "access_token:" . $token
+  ),
+  CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new CURLFILE($destinationPath)),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+
+
+       /* $curl = curl_init();
+        $client = new Client();
+        $response = $client->request('POST', 'https://api-energisa.sensedia.com/oauth/grant-code', [
+            'form_params' => [
+                'redirect_uri' => 'http://localhost:8000/',
+                'client_id' => '7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4',
+
+            ],
+            'verify' => false
+        ]);
+        //$response = $response->getBody();
+        $token = $response->getBody()->getContents();
+        dd( $token);*/
+
+
+        Flash::success('Nota Enviada com Sucesso!');
 
 
         return redirect(route('envioNotaServicos.index'));
