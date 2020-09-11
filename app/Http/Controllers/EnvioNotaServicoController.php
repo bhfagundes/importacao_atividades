@@ -189,7 +189,7 @@ class EnvioNotaServicoController extends AppBaseController
         'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
         );
         $paramsJson = json_encode($params);
-        dd($paramsJson);
+       $base = base64_encode(file_get_contents($file->getRealPath()));
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -201,7 +201,13 @@ class EnvioNotaServicoController extends AppBaseController
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => $paramsJson,
+        CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":
+            {   \"as_dsc_extensao\":\"XML\",
+                \"as_doc_eletronico\":\"S\",
+                \"as_erro_nota\":\"N\",
+                \"as_msg_nota\":\"teste\",
+                \"ind_doc_eletronico\":\"s\",
+                \"ablb_xml\":\" $base\"}}",
         CURLOPT_HTTPHEADER => array(
             "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
             "access_token:17895c05-6c3f-3d38-9065-bfa1b5294f1a",
