@@ -182,7 +182,7 @@ class EnvioNotaServicoController extends AppBaseController
             return redirect(route('envioNotaServicos.index'));
         }
         $curl = curl_init();
-        dd( new \CURLFILE( $file));
+
         curl_setopt_array($curl, array(
         CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
         CURLOPT_RETURNTRANSFER => true,
@@ -196,7 +196,7 @@ class EnvioNotaServicoController extends AppBaseController
             "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
             "access_token:17895c05-6c3f-3d38-9065-bfa1b5294f1a"
         ),
-        CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE($destinationPath)),
+        CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
 
         $response = curl_exec($curl);
