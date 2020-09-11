@@ -192,10 +192,14 @@ class EnvioNotaServicoController extends AppBaseController
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','ind_doc_eletronico' => 's'),
+        CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml',
+        'ind_doc_eletronico' => 's',
+        'con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath
+    ),
         CURLOPT_HTTPHEADER => array(
             "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-            "access_token:17895c05-6c3f-3d38-9065-bfa1b5294f1a"
+            "access_token:17895c05-6c3f-3d38-9065-bfa1b5294f1a",
+
         ),
        // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
