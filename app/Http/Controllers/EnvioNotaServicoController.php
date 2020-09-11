@@ -194,7 +194,7 @@ class EnvioNotaServicoController extends AppBaseController
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml',
         'ind_doc_eletronico' => 's',
-        'con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
+        'con_arquivo_doc'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
     ),
         CURLOPT_HTTPHEADER => array(
             "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
@@ -203,11 +203,12 @@ class EnvioNotaServicoController extends AppBaseController
         ),
        // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
+        //
 
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+        dd($response);
         Flash::success('Nota Enviada com Sucesso!');
 
 
