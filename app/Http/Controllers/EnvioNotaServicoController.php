@@ -196,7 +196,7 @@ curl_setopt_array($curl, array(
     "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
     "access_token:" . $token
   ),
-  CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new CURLFILE($destinationPath)),
+  CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE($destinationPath)),
 ));
 
 $response = curl_exec($curl);
