@@ -183,7 +183,14 @@ class EnvioNotaServicoController extends AppBaseController
         }
         dd(base64_encode(file_get_contents($file->getRealPath())));
         $curl = curl_init();
-
+        $params['of_recebe_xml']=array('as_dsc_extensao' => 'XML',
+        'as_doc_eletronico'=>'S',
+        'as_erro_nota'=>'N',
+        'as_msg_nota'=>'teste',
+        'ind_doc_eletronico' => 's',
+        'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
+    );
+        dd(json_encode($params));
         curl_setopt_array($curl, array(
         CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
         CURLOPT_RETURNTRANSFER => true,
