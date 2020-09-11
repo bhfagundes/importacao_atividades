@@ -182,7 +182,6 @@ class EnvioNotaServicoController extends AppBaseController
             return redirect(route('envioNotaServicos.index'));
         }
         $curl = curl_init();
-        dd($token);
         curl_setopt_array($curl, array(
         CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
         CURLOPT_RETURNTRANSFER => true,
