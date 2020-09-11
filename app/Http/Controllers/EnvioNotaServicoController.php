@@ -189,7 +189,7 @@ class EnvioNotaServicoController extends AppBaseController
         'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
         );
         $paramsJson = json_encode($params);
-
+        dd($paramsJson);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
