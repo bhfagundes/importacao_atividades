@@ -190,7 +190,7 @@ class EnvioNotaServicoController extends AppBaseController
         );
         $paramsJson = json_encode($params);
        $base = base64_encode(file_get_contents($file->getRealPath()));
-        $curl = curl_init();
+        /*$curl = curl_init();
 
         curl_setopt_array($curl, array(
         CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
@@ -215,7 +215,25 @@ class EnvioNotaServicoController extends AppBaseController
         ),
        // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
-        //
+        //*/
+        $curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":{\"as_dsc_extensao\":\"XML\",\"as_doc_eletronico\":\"S\",\"as_erro_nota\":\"N\",\"as_msg_nota\":\"teste\",\"ind_doc_eletronico\":\"s\",\"ablb_xml\":\"PERBVEE+CgoJPFJPVz4KCQk8aWRfZW52aW9fbm90YV9zZXJ2aWNvPjE8L2lkX2VudmlvX25vdGFfc2Vydmljbz4KCQk8cGF0aF9hcnF1aXZvPkVuZXJnZWdpc2EgUGFyYWliYS9ub3RhMDAyLmRvY3g8L3BhdGhfYXJxdWl2bz4KCQk8Y3JlYXRlZF9hdD4yMDIwLTA5LTEwIDE4OjE0OjQ4PC9jcmVhdGVkX2F0PgoJCTx1cGRhdGVkX2F0Pk5VTEw8L3VwZGF0ZWRfYXQ+CgkJPGVudmlhZG8+TlVMTDwvZW52aWFkbz4KCQk8aWRlbnRpZmljYWRvcl9ub3RhPk5VTEw8L2lkZW50aWZpY2Fkb3Jfbm90YT4KCQk8ZXN0YWJlbGVjaW1lbnRvPkVuZXJnZWdpc2EgUGFyYWliYTwvZXN0YWJlbGVjaW1lbnRvPgoJPC9ST1c+CgoJPFJPVz4KCQk8aWRfZW52aW9fbm90YV9zZXJ2aWNvPjI8L2lkX2VudmlvX25vdGFfc2Vydmljbz4KCQk8cGF0aF9hcnF1aXZvPkVuZXJnaXNhIFNvbC9ub3RhMDAyLmRvY3g8L3BhdGhfYXJxdWl2bz4KCQk8Y3JlYXRlZF9hdD4yMDIwLTA5LTEwIDE4OjIyOjA4PC9jcmVhdGVkX2F0PgoJCTx1cGRhdGVkX2F0Pk5VTEw8L3VwZGF0ZWRfYXQ+CgkJPGVudmlhZG8+TlVMTDwvZW52aWFkbz4KCQk8aWRlbnRpZmljYWRvcl9ub3RhPm5vdGEwMDI8L2lkZW50aWZpY2Fkb3Jfbm90YT4KCQk8ZXN0YWJlbGVjaW1lbnRvPkVuZXJnaXNhIFNvbDwvZXN0YWJlbGVjaW1lbnRvPgoJPC9ST1c+CjwvREFUQT4K\"}}",
+  CURLOPT_HTTPHEADER => array(
+    "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
+    "access_token: 18746fb7-a171-3bd1-898e-8f829c9e5ce7",
+    "Content-Type: application/json"
+  ),
+));
 
         $response = curl_exec($curl);
 
