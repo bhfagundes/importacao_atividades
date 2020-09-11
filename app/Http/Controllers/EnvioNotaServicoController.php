@@ -183,42 +183,26 @@ class EnvioNotaServicoController extends AppBaseController
         }
         $curl = curl_init();
 
-curl_setopt_array($curl, array(
-  CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_HTTPHEADER => array(
-    "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-    "access_token:" . $token
-  ),
-  CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE($destinationPath)),
-));
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_HTTPHEADER => array(
+            "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
+            "access_token:" . $token
+        ),
+        CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE($destinationPath)),
+        ));
 
-$response = curl_exec($curl);
+        $response = curl_exec($curl);
 
-curl_close($curl);
-
-
-       /* $curl = curl_init();
-        $client = new Client();
-        $response = $client->request('POST', 'https://api-energisa.sensedia.com/oauth/grant-code', [
-            'form_params' => [
-                'redirect_uri' => 'http://localhost:8000/',
-                'client_id' => '7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4',
-
-            ],
-            'verify' => false
-        ]);
-        //$response = $response->getBody();
-        $token = $response->getBody()->getContents();
-        dd( $token);*/
-
-
+        curl_close($curl);
+        dd( $response );
         Flash::success('Nota Enviada com Sucesso!');
 
 
