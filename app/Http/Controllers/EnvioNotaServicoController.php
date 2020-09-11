@@ -202,7 +202,7 @@ class EnvioNotaServicoController extends AppBaseController
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+        dd(  $response );
         Flash::success('Nota Enviada com Sucesso!');
 
 
