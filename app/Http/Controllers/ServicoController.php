@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+ use SoapClient;
 
 class ServicoController extends AppBaseController
 {
@@ -82,7 +83,10 @@ class ServicoController extends AppBaseController
 
         return view('servicos.show')->with('servico', $servico);
     }
+    public function teste()
+    {
 
+    }
     /**
      * Show the form for editing the specified Servico.
      *

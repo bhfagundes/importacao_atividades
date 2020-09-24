@@ -56,3 +56,9 @@ Route::resource('contratacaoServicos', 'ContratacaoServicoController');
 Route::resource('perfilContratacaos', 'PerfilContratacaoController');
 
 Route::resource('envioNotaServicos', 'EnvioNotaServicoController')->middleware('verified');
+
+
+Route::resource('apiReceitaFederalCnpjs', 'ApiReceitaFederalCnpjController');
+
+
+Route::resource('materials', 'MaterialController');

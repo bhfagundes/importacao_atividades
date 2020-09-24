@@ -104,3 +104,15 @@
         <span>Envio Nota Servicos</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('apiReceitaFederalCnpjs*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('apiReceitaFederalCnpjs.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Api Receita Federal Cnpjs</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('materials*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('materials.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Materials</span>
+    </a>
+</li>

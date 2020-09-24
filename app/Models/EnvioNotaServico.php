@@ -23,7 +23,7 @@ class EnvioNotaServico extends Model
     public $timestamps = false;
 
 
-    public $connection = "platform";
+    public $connection = "mysql";
 
     public $fillable = [
         'path_arquivo',
