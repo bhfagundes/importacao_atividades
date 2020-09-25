@@ -45,6 +45,69 @@ class EnvioNotaServicoController extends AppBaseController
     {
         return view('envio_nota_servicos.create');
     }
+    public function loginEnergisa()
+    {
+        $curl = curl_init();
+        $params =[];
+        $params['redirect_uri']='http://localhost:8000/';
+        $params['client_id']='7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4';
+        $data = json_encode($params);
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "api-energisa.sensedia.com/oauth/grant-code",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS =>$data,
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $tokenAux = explode("http://localhost:8000/?code=", $response);
+        if($tokenAux == 0)
+        {
+            return "error authentication";
+        }
+        $tokenF=explode('"}',$tokenAux[1]);
+        $token = $tokenF[0];
+        return $token;
+
+    }
+    public function authEnergisa()
+    {
+        $token = $this->loginEnergisa();
+        $curl = curl_init();
+        $params = [];
+        $params['grant_type']='authorization_code';
+        $params['code']=$token;
+        $data = json_encode($params);
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "api-energisa.sensedia.com/oauth/access-token",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS =>$data,
+        CURLOPT_HTTPHEADER => array(
+            "Authorization: Basic N2VmMWQ3MTAtMzVjMi0zYWExLTgyZjgtNmI4MmRjMWI1OGQ0OjM2NzgwMWNmLWUyOWUtMzM2Yy05YmU3LTA0ZWFiYjMwOTNkMA==",
+            "Content-Type: application/json"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $accessToken =json_decode($response);
+        return  $accessToken->access_token;
+    }
     /*protected function getRestClientUtil()
     {
         $curl =  curl_init();
@@ -132,41 +195,13 @@ class EnvioNotaServicoController extends AppBaseController
      *
      * @return Response
      */
-    public function authEnergisa()
-    {
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => "api-energisa.sensedia.com/oauth/grant-code",
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => "POST",
-          CURLOPT_POSTFIELDS =>"{\r\n \"redirect_uri\" : \"http://localhost:8000/\",\r\n \"client_id\" : \"7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4\"\r\n}",
-          CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json"
-          ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $tokenAux = explode("http://localhost:8000/?code=", $response);
-        if($tokenAux == 0)
-        {
-            return "error authentication";
-        }
-        $tokenF=explode('"}',$tokenAux[1]);
-        $token = $tokenF[0];
-        return $token;
-    }
     public function store(CreateEnvioNotaServicoRequest $request)
     {
         $input = $request->all();
         // salvando no storage
         $file = $input['arquivo'];
+        $token = $this->authEnergisa();
         $fileExtension = $file->getClientOriginalExtension();
         $fileName = $input['identificador_nota']. ".".$fileExtension;
         $destinationPath = $input['estabelecimento'] . "/". $fileName;
@@ -231,7 +266,7 @@ curl_setopt_array($curl, array(
     \"ablb_xml\":\"$base\"}}",
   CURLOPT_HTTPHEADER => array(
     "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-    "access_token: 18746fb7-a171-3bd1-898e-8f829c9e5ce7",
+    "access_token:" . $token,
     "Content-Type: application/json"
   ),
 ));
