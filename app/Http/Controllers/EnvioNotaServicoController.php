@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use GuzzleHttp\Client;
 use Response;
-use Spatie\PdfToText\Pdf;
+
 class EnvioNotaServicoController extends AppBaseController
 {
     /** @var  EnvioNotaServicoRepository */
