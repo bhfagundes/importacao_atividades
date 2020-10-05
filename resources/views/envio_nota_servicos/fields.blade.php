@@ -10,6 +10,23 @@
         {!! Form::text('identificador_nota', null, ['class' => 'form-control']) !!}
     </div>
 </div>
+<div class="row">
+    <div class="form-group col-sm-6">
+        {!! Form::label('id_tipo_atividade', 'Indicador documento eletrônico:') !!}
+        {!! Form::text('doc_eletronico', null, ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group col-sm-6">
+        {!! Form::label('id_tipo_atividade', 'Indicador erro:') !!}
+        {!! Form::text('indicador_erro', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">
+        {!! Form::label('id_tipo_atividade', 'Texto do erro:') !!}
+        {!! Form::textarea('texto_erro', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
 <div class="form-group col-sm-6">
     {!! Form::label('path_arquivo', 'Path Arquivo:') !!}
     {!! Form::file('arquivo', null, ['class' => 'form-control']) !!}

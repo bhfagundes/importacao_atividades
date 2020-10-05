@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use GuzzleHttp\Client;
 use Response;
-
+use Spatie\PdfToText\Pdf;
 class EnvioNotaServicoController extends AppBaseController
 {
     /** @var  EnvioNotaServicoRepository */
@@ -200,12 +200,20 @@ class EnvioNotaServicoController extends AppBaseController
     {
         $input = $request->all();
         // salvando no storage
+
         $file = $input['arquivo'];
+        $return = \Spatie\PdfToText\Pdf::getText($filename, '/mingw64/bin/pdftotext');
+        $test = Pdf::getText($file->getRealPath());
+
         $token = $this->authEnergisa();
         $fileExtension = $file->getClientOriginalExtension();
         $fileName = $input['identificador_nota']. ".".$fileExtension;
         $destinationPath = $input['estabelecimento'] . "/". $fileName;
         \Storage::disk('local')->put($destinationPath,file_get_contents($file->getRealPath()));
+        $text = (new Pdf($input['estabelecimento']))
+        ->setPdf($file->getRealPath())
+        ->text();
+
         // fim do salvamento no storage
         $input['identificador_nota']= $input['identificador_nota'];
         $input['path_arquivo']=$destinationPath;
@@ -216,11 +224,11 @@ class EnvioNotaServicoController extends AppBaseController
             Flash::error('Erro ao enviar o XML');
             return redirect(route('envioNotaServicos.index'));
         }
-        $params['of_recebe_xml']=array('as_dsc_extensao' => 'XML',
-        'as_doc_eletronico'=>'S',
-        'as_erro_nota'=>'N',
-        'as_msg_nota'=>'teste',
-        'ind_doc_eletronico' => 's',
+        $params['of_recebe_xml']=array(
+        'as_dsc_extensao' => 'XML',
+        'as_doc_eletronico'=>   $input['doc_eletronico'],//vindo da tela
+        'as_erro_nota'=>$input['indicador_erro'],//vindo da tela
+        'as_msg_nota'=>$input['texto_erro'],//vindo da tela
         'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
         );
         $paramsJson = json_encode($params);
