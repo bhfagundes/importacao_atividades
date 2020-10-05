@@ -202,17 +202,14 @@ class EnvioNotaServicoController extends AppBaseController
         // salvando no storage
 
         $file = $input['arquivo'];
-        $return = \Spatie\PdfToText\Pdf::getText($filename, '/mingw64/bin/pdftotext');
-        $test = Pdf::getText($file->getRealPath());
+
 
         $token = $this->authEnergisa();
         $fileExtension = $file->getClientOriginalExtension();
         $fileName = $input['identificador_nota']. ".".$fileExtension;
         $destinationPath = $input['estabelecimento'] . "/". $fileName;
         \Storage::disk('local')->put($destinationPath,file_get_contents($file->getRealPath()));
-        $text = (new Pdf($input['estabelecimento']))
-        ->setPdf($file->getRealPath())
-        ->text();
+
 
         // fim do salvamento no storage
         $input['identificador_nota']= $input['identificador_nota'];
