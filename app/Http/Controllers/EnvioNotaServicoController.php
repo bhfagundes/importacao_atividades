@@ -53,7 +53,7 @@ class EnvioNotaServicoController extends AppBaseController
         $params['client_id']='7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4';
         $data = json_encode($params);
         curl_setopt_array($curl, array(
-          CURLOPT_URL => "api-energisa.sensedia.com/oauth/grant-code",
+          CURLOPT_URL => "api.energisa.io/oauth/grant-code",
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
@@ -88,7 +88,7 @@ class EnvioNotaServicoController extends AppBaseController
         $params['code']=$token;
         $data = json_encode($params);
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "api-energisa.sensedia.com/oauth/access-token",
+        CURLOPT_URL => "api.energisa.io/oauth/access-token",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
