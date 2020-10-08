@@ -220,7 +220,6 @@ class EnvioNotaServicoController extends AppBaseController
         $input['path_arquivo']=$destinationPath;
         $envioNotaServico = $this->envioNotaServicoRepository->create($input);
         $token = $this->authEnergisa();
-        dd($token);
         if($token == "error authentication")
         {
             Flash::error('Erro ao enviar o XML');
@@ -233,13 +232,11 @@ class EnvioNotaServicoController extends AppBaseController
         'as_msg_nota'=>$input['texto_erro'],//vindo da tela
         'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
         );
-        $header = array (
-            'client_id'=>'7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4',
-            'access_token'=>$token,
-
-        );
+        $doc =  $input['doc_eletronico'];
+        $ind = $input['indicador_erro'];
+        $msg = $input['texto_erro'];
         $paramsJson = json_encode($params);
-        $base = base64_encode(file_get_contents($file->getRealPath()));
+       $base = base64_encode(file_get_contents($file->getRealPath()));
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -252,8 +249,18 @@ class EnvioNotaServicoController extends AppBaseController
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>$paramsJson,
-        CURLOPT_HTTPHEADER => $header
+        CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":
+            {   \"as_dsc_extensao\":\"XML\",
+                \"as_doc_eletronico\":\"$doc\",
+                \"as_erro_nota\":\"$ind\",
+                \"as_msg_nota\":\"$msg\",
+                \"as_doc_eletronico\":\" $doc\",
+                \"ablb_xml\":\" $base\"}}",
+        CURLOPT_HTTPHEADER => array(
+            "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
+            "access_token: " .$token,
+
+        ),
        // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
         //*/
