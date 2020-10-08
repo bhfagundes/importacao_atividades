@@ -238,7 +238,8 @@ class EnvioNotaServicoController extends AppBaseController
         $paramsJson = json_encode($params);
        $base = base64_encode(file_get_contents($file->getRealPath()));
         $curl = curl_init();
-        dd($token);
+        $sToken = '"access_token: ' .  $token . '"';
+        //dd($token);
         curl_setopt_array($curl, array(
         CURLOPT_URL => "https://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
         CURLOPT_RETURNTRANSFER => true,
@@ -250,21 +251,21 @@ class EnvioNotaServicoController extends AppBaseController
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":
-            {   \"as_dsc_extensao\":\"XML\",
-                \"as_doc_eletronico\":\"$doc\",
-                \"as_erro_nota\":\"$ind\",
-                \"as_msg_nota\":\"$msg\",
-                \"as_doc_eletronico\":\" $doc\",
+            {  \"as_dsc_extensao\":\"XML\",\r\n
+                \"as_doc_eletronico\":\"$doc\",\r\n
+                \"as_erro_nota\":\"$ind\",\r\n
+                \"as_msg_nota\": \"$msg\"\r\n,
                 \"ablb_xml\":\" $base\"}}",
         CURLOPT_HTTPHEADER => array(
             "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-            "access_token: " .$token,
+            "access_token: ".$token,
+            "Content-Type: application/json"
 
         ),
        // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
         //*/
-        $curl = curl_init();
+
         $response = curl_exec($curl);
 
         curl_close($curl);
