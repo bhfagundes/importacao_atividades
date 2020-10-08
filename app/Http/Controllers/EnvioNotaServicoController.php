@@ -238,7 +238,7 @@ class EnvioNotaServicoController extends AppBaseController
         $paramsJson = json_encode($params);
        $base = base64_encode(file_get_contents($file->getRealPath()));
         $curl = curl_init();
-
+        dd($token);
         curl_setopt_array($curl, array(
         CURLOPT_URL => "https://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
         CURLOPT_RETURNTRANSFER => true,
