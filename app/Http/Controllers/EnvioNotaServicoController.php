@@ -53,11 +53,12 @@ class EnvioNotaServicoController extends AppBaseController
         $params['client_id']='7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4';
         $data = json_encode($params);
         curl_setopt_array($curl, array(
-          CURLOPT_URL => "api.energisa.io/oauth/grant-code",
+          CURLOPT_URL => "https://api.energisa.io/oauth/grant-code",
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
           CURLOPT_TIMEOUT => 0,
+          CURLOPT_SSL_VERIFYPEER => false,
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "POST",
@@ -74,6 +75,7 @@ class EnvioNotaServicoController extends AppBaseController
         {
             return "error authentication";
         }
+
         $tokenF=explode('"}',$tokenAux[1]);
         $token = $tokenF[0];
         return $token;
@@ -88,11 +90,12 @@ class EnvioNotaServicoController extends AppBaseController
         $params['code']=$token;
         $data = json_encode($params);
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "api.energisa.io/oauth/access-token",
+        CURLOPT_URL => "https://api.energisa.io/oauth/access-token",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
@@ -198,13 +201,14 @@ class EnvioNotaServicoController extends AppBaseController
 
     public function store(CreateEnvioNotaServicoRequest $request)
     {
+
         $input = $request->all();
         // salvando no storage
 
         $file = $input['arquivo'];
 
 
-        $token = $this->authEnergisa();
+
         $fileExtension = $file->getClientOriginalExtension();
         $fileName = $input['identificador_nota']. ".".$fileExtension;
         $destinationPath = $input['estabelecimento'] . "/". $fileName;
@@ -257,25 +261,6 @@ class EnvioNotaServicoController extends AppBaseController
         ));
         //*/
         $curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":{\"as_dsc_extensao\":\"XML\",\"as_doc_eletronico\":\"S\",\"as_erro_nota\":\"N\",\"as_msg_nota\":\"teste\",\"ind_doc_eletronico\":\"s\",
-    \"ablb_xml\":\"$base\"}}",
-  CURLOPT_HTTPHEADER => array(
-    "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-    "access_token:" . $token,
-    "Content-Type: application/json"
-  ),
-));
-
         $response = curl_exec($curl);
 
         curl_close($curl);
