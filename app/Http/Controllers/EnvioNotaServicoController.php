@@ -220,6 +220,7 @@ class EnvioNotaServicoController extends AppBaseController
         $input['path_arquivo']=$destinationPath;
         $envioNotaServico = $this->envioNotaServicoRepository->create($input);
         $token = $this->authEnergisa();
+        dd($token);
         if($token == "error authentication")
         {
             Flash::error('Erro ao enviar o XML');
