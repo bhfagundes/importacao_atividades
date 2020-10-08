@@ -232,31 +232,27 @@ class EnvioNotaServicoController extends AppBaseController
         'as_msg_nota'=>$input['texto_erro'],//vindo da tela
         'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
         );
+        $header = array (
+            'client_id'=>'7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4',
+            'access_token'=>$token,
+
+        );
         $paramsJson = json_encode($params);
-       $base = base64_encode(file_get_contents($file->getRealPath()));
-        /*$curl = curl_init();
+        $base = base64_encode(file_get_contents($file->getRealPath()));
+        $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
+        CURLOPT_URL => "https://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":
-            {   \"as_dsc_extensao\":\"XML\",
-                \"as_doc_eletronico\":\"S\",
-                \"as_erro_nota\":\"N\",
-                \"as_msg_nota\":\"teste\",
-                \"ind_doc_eletronico\":\"s\",
-                \"ablb_xml\":\" $base\"}}",
-        CURLOPT_HTTPHEADER => array(
-            "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-            "access_token:17895c05-6c3f-3d38-9065-bfa1b5294f1a",
-
-        ),
+        CURLOPT_POSTFIELDS =>$paramsJson,
+        CURLOPT_HTTPHEADER => $header
        // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
         ));
         //*/
