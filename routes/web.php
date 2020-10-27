@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('/testeDisk', function () {
+    dd(Storage::disk('ocr')->listContents());
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware('verified');
@@ -56,6 +61,8 @@ Route::resource('contratacaoServicos', 'ContratacaoServicoController');
 Route::resource('perfilContratacaos', 'PerfilContratacaoController');
 
 Route::resource('envioNotaServicos', 'EnvioNotaServicoController')->middleware('verified');
+
+Route::resource('envioNotaEnergia', 'EnvioNotaEnergiaController');
 
 
 Route::resource('apiReceitaFederalCnpjs', 'ApiReceitaFederalCnpjController');

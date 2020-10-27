@@ -1,9 +1,13 @@
-<!--<li class="nav-item {{ Request::is('atividades*') ? 'active' : '' }}">
+<!--
+<li class="nav-item {{ Request::is('atividades*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('atividades.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Atividades</span>
     </a>
 </li>
+
+
+
 
 <li class="nav-item {{ Request::is('cidades*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('cidades.index') }}">
@@ -98,18 +102,25 @@
         <span>Perfil Contratacaos</span>
     </a>
 </li>!-->
+<li class="nav-item {{ Request::is('envioNotaEnergia*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('envioNotaEnergia.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Envio Nota Energia</span>
+    </a>
+</li>
 <li class="nav-item {{ Request::is('envioNotaServicos*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('envioNotaServicos.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Envio Nota Servicos</span>
     </a>
 </li>
+<!--
 <li class="nav-item {{ Request::is('apiReceitaFederalCnpjs*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('apiReceitaFederalCnpjs.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Api Receita Federal Cnpjs</span>
     </a>
-</li>
+</li>!-->
 <li class="nav-item {{ Request::is('materials*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('materials.index') }}">
         <i class="nav-icon icon-cursor"></i>
