@@ -260,7 +260,7 @@ class EnvioNotaEnergiaController extends AppBaseController
 
         ];
         $request = json_encode([
-            "xml_nota" => $conteudo
+            "xml_nota" => base64_encode($conteudo)
         ]);
 
         curl_setopt($cURLConnection, CURLOPT_POST, true);
