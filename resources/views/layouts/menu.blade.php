@@ -114,6 +114,13 @@
         <span>Envio Nota Servicos</span>
     </a>
 </li>
+
+<li class="nav-item {{ Request::is('enquadramentoServico*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('enquadramentoServico.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Enquadramento Serviços</span>
+    </a>
+</li>
 <!--
 <li class="nav-item {{ Request::is('apiReceitaFederalCnpjs*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('apiReceitaFederalCnpjs.index') }}">

@@ -64,6 +64,8 @@ Route::resource('envioNotaServicos', 'EnvioNotaServicoController')->middleware('
 
 Route::resource('envioNotaEnergia', 'EnvioNotaEnergiaController');
 
+Route::resource('enquadramentoServico', 'EnquadramentoController');
+
 
 Route::resource('apiReceitaFederalCnpjs', 'ApiReceitaFederalCnpjController');
 
