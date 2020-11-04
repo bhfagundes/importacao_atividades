@@ -62,6 +62,12 @@ Route::resource('perfilContratacaos', 'PerfilContratacaoController');
 
 Route::resource('envioNotaServicos', 'EnvioNotaServicoController')->middleware('verified');
 
+
+Route::resource('envioNotaPreNota', 'EnvioNotaPreNotaController');
+
+
+
+
 Route::resource('envioNotaEnergia', 'EnvioNotaEnergiaController');
 
 Route::resource('enquadramentoServico', 'EnquadramentoController');
@@ -71,3 +77,20 @@ Route::resource('apiReceitaFederalCnpjs', 'ApiReceitaFederalCnpjController');
 
 
 Route::resource('materials', 'MaterialController');
+
+
+Route::resource('tipoObrigacaos', 'TipoObrigacaoController');
+
+Route::resource('sfAnuncios', 'SfAnuncioController');
+
+Route::resource('anuncianteCargas', 'AnuncianteCargaController');
+
+Route::resource('estados', 'EstadoController');
+
+Route::resource('relatorioCargaXmls', 'RelatorioCargaXmlController');
+
+Route::resource('sfAnuncioFotos', 'SfAnuncioFotoController');
+
+Route::resource('anuncianteProfissionalPacotes', 'AnuncianteProfissionalPacoteController');
+
+Route::resource('tipoImovels', 'TipoImovelController');

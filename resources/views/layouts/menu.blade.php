@@ -1,10 +1,11 @@
-<!--
 <li class="nav-item {{ Request::is('atividades*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('atividades.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Atividades</span>
     </a>
 </li>
+<!--
+
 
 
 
@@ -132,5 +133,60 @@
     <a class="nav-link" href="{{ route('materials.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Materials</span>
+    </a>
+</li>
+<!-- <li class="nav-item {{ Request::is('tipoObrigacaos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('tipoObrigacaos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Tipo Obrigacaos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('sfAnuncios*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('sfAnuncios.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Sf Anuncios</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('anuncianteCargas*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('anuncianteCargas.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Anunciante Cargas</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('estados*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('estados.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Estados</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('relatorioCargaXmls*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('relatorioCargaXmls.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Relatorio Carga Xmls</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('sfAnuncioFotos*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('sfAnuncioFotos.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Sf Anuncio Fotos</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('anuncianteProfissionalPacotes*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('anuncianteProfissionalPacotes.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Anunciante Profissional Pacotes</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('tipoImovels*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('tipoImovels.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Tipo Imovels</span>
+    </a>
+</li>
+!-->
+<li class="nav-item {{ Request::is('envioNotaPreNota*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('envioNotaPreNota.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Envio Pré Nota</span>
     </a>
 </li>
