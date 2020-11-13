@@ -29,7 +29,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('path_arquivo', 'Path Arquivo:') !!}
-    {!! Form::file('arquivo', null, ['class' => 'form-control']) !!}
+    <input type="file" name="arquivo[]" multiple class="form-control">
 </div>
 
 

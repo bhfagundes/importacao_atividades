@@ -201,74 +201,74 @@ class EnvioNotaServicoController extends AppBaseController
 
     public function store(CreateEnvioNotaServicoRequest $request)
     {
-
+        ini_set('post_max_size', '100M');
+        ini_set('upload_max_filesize', '100M');
         $input = $request->all();
         // salvando no storage
 
-        $file = $input['arquivo'];
+        $files = $input['arquivo'];
 
 
-
-        $fileExtension = $file->getClientOriginalExtension();
-        $fileName = $input['identificador_nota']. ".".$fileExtension;
-        $destinationPath = $input['estabelecimento'] . "/". $fileName;
-        \Storage::disk('local')->put($destinationPath,file_get_contents($file->getRealPath()));
-
-
-        // fim do salvamento no storage
-        $input['identificador_nota']= $input['identificador_nota'];
-        $input['path_arquivo']=$destinationPath;
-        $envioNotaServico = $this->envioNotaServicoRepository->create($input);
-        $token = $this->authEnergisa();
-        if($token == "error authentication")
+        for($i=0;$i<sizeof($files);$i++)
         {
-            Flash::error('Erro ao enviar o XML');
-            return redirect(route('envioNotaServicos.index'));
+            $fileExtension = $files[$i]->getClientOriginalExtension();
+            $filename = $files[$i]->getClientOriginalName();
+            $fileName = $filename . ".".$fileExtension;
+            $destinationPath = $input['estabelecimento'] . "/". $fileName;
+            \Storage::disk('local')->put($destinationPath,file_get_contents($files[$i]->getRealPath()));
+
+
+            // fim do salvamento no storage
+            $input['identificador_nota']= $input['identificador_nota'];
+            $input['path_arquivo']=$destinationPath;
+            $envioNotaServico = $this->envioNotaServicoRepository->create($input);
+            $token = $this->authEnergisa();
+
+            $params['of_recebe_xml']=array(
+            'as_dsc_extensao' => 'XML',
+            'as_doc_eletronico'=>   $input['doc_eletronico'],//vindo da tela
+            'as_erro_nota'=>$input['indicador_erro'],//vindo da tela
+            'as_msg_nota'=>$input['texto_erro'],//vindo da tela
+            'ablb_xml'=>base64_encode(file_get_contents($files[$i]->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
+            );
+            $doc =  $input['doc_eletronico'];
+            $ind = $input['indicador_erro'];
+            $msg = $input['texto_erro'];
+            $paramsJson = json_encode($params);
+            $base = base64_encode(file_get_contents($files[$i]->getRealPath()));
+            $curl = curl_init();
+            $sToken = '"access_token: ' .  $token . '"';
+            //dd($token);
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":
+                {  \"as_dsc_extensao\":\"XML\",\r\n
+                    \"as_doc_eletronico\":\"$doc\",\r\n
+                    \"as_erro_nota\":\"$ind\",\r\n
+                    \"as_msg_nota\": \"$msg\"\r\n,
+                    \"ablb_xml\":\" $base\"}}",
+            CURLOPT_HTTPHEADER => array(
+                "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
+                "access_token: ".$token,
+                "Content-Type: application/json"
+
+            ),
+            // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
+            ));
+            //*/
+
+            $response[$filename] = curl_exec($curl);
+
+            curl_close($curl);
         }
-        $params['of_recebe_xml']=array(
-        'as_dsc_extensao' => 'XML',
-        'as_doc_eletronico'=>   $input['doc_eletronico'],//vindo da tela
-        'as_erro_nota'=>$input['indicador_erro'],//vindo da tela
-        'as_msg_nota'=>$input['texto_erro'],//vindo da tela
-        'ablb_xml'=>base64_encode(file_get_contents($file->getRealPath())) //new \CURLFILE('http://3.22.8.104:8082/storage/'.$destinationPath)
-        );
-        $doc =  $input['doc_eletronico'];
-        $ind = $input['indicador_erro'];
-        $msg = $input['texto_erro'];
-        $paramsJson = json_encode($params);
-       $base = base64_encode(file_get_contents($file->getRealPath()));
-        $curl = curl_init();
-        $sToken = '"access_token: ' .  $token . '"';
-        //dd($token);
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://hml-api.energisa.io/WSCFSPB_SFC/v1/of_recebe_xml",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\"of_recebe_xml\":
-            {  \"as_dsc_extensao\":\"XML\",\r\n
-                \"as_doc_eletronico\":\"$doc\",\r\n
-                \"as_erro_nota\":\"$ind\",\r\n
-                \"as_msg_nota\": \"$msg\"\r\n,
-                \"ablb_xml\":\" $base\"}}",
-        CURLOPT_HTTPHEADER => array(
-            "client_id: 7ef1d710-35c2-3aa1-82f8-6b82dc1b58d4",
-            "access_token: ".$token,
-            "Content-Type: application/json"
-
-        ),
-       // CURLOPT_POSTFIELDS => array('dsc_extensao' => '.xml','con_arquivo_doc'=> new \CURLFILE('http://3.22.8.104:8082/storage/energisa%20teste/nota01.xlsx')),
-        ));
-        //*/
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
         dd($response);
         Flash::success('Nota Enviada com Sucesso!');
 
